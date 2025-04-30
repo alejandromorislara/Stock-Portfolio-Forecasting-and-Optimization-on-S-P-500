@@ -12,11 +12,12 @@ A comprehensive Jupyter Notebook that demonstrates data loading, exploratory ana
 2. [Repository Structure](#repository-structure)  
 3. [Installation & Setup](#installation--setup)  
 4. [Usage](#usage)  
-5. [Notebook Sections](#notebook-sections)  
-6. [Images](#images)  
-7. [Contributing](#contributing)  
-8. [License](#license)  
-9. [Contact](#contact)
+5. [Notebook Sections](#notebook-sections)
+6. [Genetic Algorithm Details](#genetic-algorithm-details)
+7. [Images](#images)  
+8. [Contributing](#contributing)  
+9. [License](#license)  
+10. [Contact](#contact)
 
 ---
 
@@ -173,13 +174,12 @@ Carries the top-performing chromosomes unchanged into the next generation to pre
 ### Fitness Evaluation: CARA Function
 Chromosomes are scored using a Certainty‑Equivalent Risk Aversion (CARA) objective:
 
-\[ 
-CARA = R_p - \tfrac{\gamma}{2}\,\sigma_p^2 
-\]
+CARA = R_p - (γ / 2) · σ_p²
 
 - *R_p*: Expected portfolio return  
 - *σ_p²*: Portfolio variance  
 - *γ*: Risk-aversion parameter
+
 
 ### Sample Optimization Results
 | Pop. Size | Tour. Size | Mut. Prob. | Cross. Prob. | γ   | Generations | Elitism | Total Money | Zero Ops | Buy Ops | Sell Ops | Total Ops |

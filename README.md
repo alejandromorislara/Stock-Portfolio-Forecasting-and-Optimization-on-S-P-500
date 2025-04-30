@@ -26,8 +26,8 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
 
 - Perform **exploratory data analysis (EDA)** and visualize market trends.  
 - Build **supervised machine learning** models (e.g., LSTM, Random Forest) to forecast future prices.  
-- Apply **dimensionality reduction** (PCA, t-SNE) for feature engineering and visualization.  
-- Construct **optimized portfolios** by maximizing return under risk constraints using mean-variance optimization.
+- Apply **dimensionality reduction** (PCA) for feature engineering and visualization.  
+- Construct **optimized portfolios** by maximizing return under risk constraints using mean-variance optimization(Constant Absolute Risk Aversion function).
 
 ---
 
@@ -35,8 +35,8 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
 
 ```
 ├── data/                    # Raw and processed datasets
-│   ├── raw/                 # Original CSV files from data source
-│   └── processed/           # Cleaned and merged data
+│   ├── raw_stocks/                 # Original CSV files from data source
+│   └── stocks/           # Cleaned and merged data
 ├── images/                  # Visualization assets for README
 │   ├── pipeline-diagram.png # Summary workflow diagram
 │   ├── eda-correlation.png  # Correlation heatmap example
@@ -91,15 +91,105 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
    - **Figure:** Correlation heatmap → `./images/eda-correlation.png`
 3. **Feature Engineering**  
    - Compute technical indicators (moving averages, volatility).
-4. **Dimensionality Reduction**  
-   - Apply PCA & t-SNE for visualization.
-5. **Model Building & Forecasting**  
+   - Dimensionality Reduction : PCA
+4. **Model Building & Forecasting**  
    - Train/test split, model comparison, hyperparameter tuning.
-6. **Portfolio Optimization**  
-   - Mean-variance frontier, efficient portfolio selection.  
-   - **Figure:** Backtest performance → `./images/results-backtest.png`
+5. **Portfolio Optimization**  
+   - Mean-variance frontier using CARA function. Portfolio selection according to the investor's risk.  
+   - **Figure:** Genetic Algorithm performance → `./images/genetic_algorithm_results.png`
 
 ---
+
+## 🖼️ Genetic Algorithm Details
+
+This project employs a Genetic Algorithm (GA) to optimize stock portfolios under capital and liquidation constraints. Key GA components are summarized below:
+
+### Chromosome Representation
+Each chromosome is a 2D matrix (assets × days) where entries denote units bought (+), sold (–), or held (0). Capital constraints and end‑of‑month liquidation are enforced. Example for 3 assets over 5 days:
+
+```text
+[ [10,  0, -5,  0,  0],
+  [ 0, 20,  0,  0, -10],
+  [ 0,  0,  0, 15,   0] ]
+```
+
+### Crossover
+Combines two parents by identifying their most traded assets and iteratively swapping trades to produce feasible offspring. If no valid swaps exist, original parents are retained.
+
+**Example:**
+
+Parent 1:
+```text
+[ [0, 5, 0, -2, 0],
+  [2, 0, -3, 0, 1],
+  [0, 0, 4, 0, 0] ]
+```
+
+Parent 2:
+```text
+[ [0, 0, 3, -1, 0],
+  [5, 0, 0, 4, 0],
+  [0, 2, 0, 0, -3] ]
+```
+
+Children 1:
+```text
+[ [0, 3, 0, -2, 0],
+  [2, 0, -3, 3, 1],
+  [0, 0, 4, 0, 0] ]
+```
+
+Children 2:
+```text
+[ [0, 3, 3, -1, 0],
+  [1, 0, 0, 4, 0],
+  [0, 2, 0, 0, -3] ]
+```
+
+### Mutation
+Introduces diversity by selecting valid trade points (must have prior purchase and subsequent sale), reducing that trade, and reinvesting proceeds in a new asset with a random sale day before month end.
+
+**Example Before Mutation:**
+```text
+[ [0, 10, 0, 5, 0],
+  [0, 0, 0, 0, 15],
+  [0, 0, 0, 0, 0 ],
+  [5, 0, 0, 0, 0 ],
+  [0, 0, 0, 10, 0] ]
+```
+
+**Example After Mutation:**
+```text
+[ [0, 5, 0, 5, 0],
+  [0, 0, 0, 0, 15],
+  [0, 0, 3, 0, 0 ],
+  [5, 0, 0, 0, 0 ],
+  [0, 0, 0, 10, 0] ]
+```
+
+### Elitism
+Carries the top-performing chromosomes unchanged into the next generation to preserve high‑quality solutions and prevent loss from stochastic operations.
+
+### Fitness Evaluation: CARA Function
+Chromosomes are scored using a Certainty‑Equivalent Risk Aversion (CARA) objective:
+
+\[ 
+CARA = R_p - \tfrac{\gamma}{2}\,\sigma_p^2 
+\]
+
+- *R_p*: Expected portfolio return  
+- *σ_p²*: Portfolio variance  
+- *γ*: Risk-aversion parameter
+
+### Sample Optimization Results
+| Pop. Size | Tour. Size | Mut. Prob. | Cross. Prob. | γ   | Generations | Elitism | Total Money | Zero Ops | Buy Ops | Sell Ops | Total Ops |
+|----------:|----------:|----------:|------------:|:----|-----------:|:-------|-----------:|--------:|-------:|--------:|----------:|
+|       100 |         5 |      0.05 |         0.80 | 0.5 |         50 | Yes     |       12,345 |      50 |    120 |     80 |       250 |
+|       200 |        10 |      0.02 |         0.90 | 1.0 |        100 | No      |       15,678 |      30 |    150 |     70 |       300 |
+|       150 |         8 |      0.10 |         0.70 | 0.7 |         75 | Yes     |       10,432 |      60 |    110 |     90 |       260 |
+|        50 |         4 |      0.15 |         0.60 | 0.3 |         30 | No      |        8,910 |      80 |    100 |     50 |       230 |
+|       300 |        12 |      0.01 |         0.95 | 1.5 |        150 | Yes     |       18,234 |      20 |    180 |    100 |       400 |
+
 
 ## 🖼️ Images
 
@@ -111,20 +201,6 @@ Add the following files to the `images/` folder in root:
 | `eda-correlation.png`      | Heatmap of stock return correlations.            |
 | `results-backtest.png`     | Plot of optimized portfolio backtest results.    |
 
-Tip: Use high-resolution PNGs (800×600 pixels) for clarity.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository.  
-2. Create a feature branch (`git checkout -b feature/your-feature`).  
-3. Commit your changes (`git commit -m 'Add new feature'`).  
-4. Push to the branch (`git push origin feature/your-feature`).  
-5. Open a Pull Request.
-
 ---
 
 ## 📜 License
@@ -135,7 +211,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 ## ✉️ Contact
 
-- **Author:** Your Name  
-- **GitHub:** [yourusername](https://github.com/yourusername)  
-- **Email:** youremail@example.com
+- **Author:** Alejandro Morís Lara & Alfredo Flórez de la Vega
+- **GitHub:** [alejandromorislara](https://github.com/alejandromorislara)  
+- **Email:** alejandrgi2g@gmail.com
 

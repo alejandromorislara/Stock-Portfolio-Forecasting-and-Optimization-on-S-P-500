@@ -107,6 +107,9 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
 
 We leveraged historical stock data from multiple sources (e.g., Yahoo Finance, Alpha Vantage) and experimented with diverse machine learning approaches—including Bagging, XGBoost, LightGBM, Gradient Boosting, and more—to predict future price movements. To mitigate overfitting and noise, we applied Principal Component Analysis (PCA) and retained components based on the Kaiser criterion (eigenvalues > 1), leading to a concise feature set that improved model stability.
 
+![RMSE Comparison](./images/macroeconomic_correlation_matrix.png)  
+*Pearson correlation matrix of macroeconomic variables.*
+
 **Key Forecasting Results**  
 (Top performing models)
 
@@ -218,11 +221,18 @@ CARA = R_p - (γ / 2) · σ_p²
 
 Add the following files to the `images/` folder in root:
 
-| Filename                   | Description                                      |
-| -------------------------- | ------------------------------------------------ |
-| `pipeline-diagram.png`     | Workflow diagram summarizing the project steps.  |
-| `eda-correlation.png`      | Heatmap of stock return correlations.            |
-| `results-backtest.png`     | Plot of optimized portfolio backtest results.    |
+| Filename                          | Description                                                  |
+| --------------------------------- | ------------------------------------------------------------ |
+| `ag.webp`                         | Aggregated data visualization or result summary              |
+| `distribution_macroeconomic.png` | Distribution of macroeconomic variables                      |
+| `lstm.png`                        | Architecture of the LSTM model                               |
+| `macroeconomic_correlation_.png` | Correlation heatmap of macroeconomic indicators              |
+| `mse_comparison.png`             | MSE comparison between different models                      |
+| `pipeline-diagram.png`           | Workflow diagram summarizing the project steps               |
+| `portrait.jpg`                   | Portrait        |
+| `RMSE_comparison_models.png`     | RMSE comparison across models across different PCA components                               |
+| `time_series_split.png`          | Visualization of time series train/test split                |
+
 
 ---
 

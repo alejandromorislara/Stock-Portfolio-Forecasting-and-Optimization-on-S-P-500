@@ -243,6 +243,6 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 ## ✉️ Contact
 
 - **Author:** Alejandro Morís Lara & Alfredo Flórez de la Vega
-- **GitHub:** [alejandromorislara](https://github.com/alejandromorislara)  
+- **GitHub:** [alejandromorislara](https://github.com/alejandromorislara) & [alfredofdlv](https://github.com/alfredofdlv)  
 - **Email:** alejandrgi2g@gmail.com
 

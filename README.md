@@ -13,9 +13,9 @@ A comprehensive Jupyter Notebook that demonstrates data loading, exploratory ana
 3. [Installation & Setup](#installation--setup)  
 4. [Usage](#usage)  
 5. [Notebook Sections](#notebook-sections)
-6. [Genetic Algorithm Details](#genetic-algorithm-details)
-7. [Images](#images)  
-8. [Contributing](#contributing)  
+6. [Forecasting](#forecasting)
+7. [Genetic Algorithm Details](#genetic-algorithm-details)
+8. [Images](#images)  
 9. [License](#license)  
 10. [Contact](#contact)
 
@@ -35,17 +35,19 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
 ## 📂 Repository Structure
 
 ```
-├── data/                    # Raw and processed datasets
-│   ├── raw_stocks/                 # Original CSV files from data source
-│   └── stocks/           # Cleaned and merged data
-├── images/                  # Visualization assets for README
-│   ├── pipeline-diagram.png # Summary workflow diagram
-│   ├── eda-correlation.png  # Correlation heatmap example
-│   └── results-backtest.png # Portfolio backtest results
-├── notebooks/               # Jupyter Notebook files
+├── data/                    
+│   ├── raw_stocks/                 
+│   └── stocks/           
+├── images/                  
+│   ├── pipeline-diagram.png 
+│   ├── portrait.jpg
+|   ├── mse_comparison.png
+|   ├── ...
+|    
+├── notebooks/               
 │   └── sp500_portfolio.ipynb
-├── requirements.txt         # Python dependencies
-└── README.md                # Project README (this file)
+├── requirements.txt         
+└── README.md                
 ```
 
 ---
@@ -54,8 +56,8 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/sp500-forecasting.git
-   cd sp500-forecasting
+   git clone https://https://github.com/alejandromorislara/Stock-Portfolio-Forecasting-and-Optimization-on-S-P-500.git
+   cd Stock-Portfolio-Forecasting-and-Optimization-on-S-P-500
    ```
 
 2. **Create a virtual environment**
@@ -100,6 +102,27 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
    - **Figure:** Genetic Algorithm performance → `./images/genetic_algorithm_results.png`
 
 ---
+
+## 📈 Forecasting
+
+We leveraged historical stock data from multiple sources (e.g., Yahoo Finance, Alpha Vantage) and experimented with diverse machine learning approaches—including Bagging, XGBoost, LightGBM, Gradient Boosting, and more—to predict future price movements. To mitigate overfitting and noise, we applied Principal Component Analysis (PCA) and retained components based on the Kaiser criterion (eigenvalues > 1), leading to a concise feature set that improved model stability.
+
+**Key Forecasting Results**  
+(Top performing models)
+
+| Model               | MSE      | MAE      | RMSE    | MAPE    |
+|---------------------|---------:|---------:|--------:|--------:|
+| **Bagging**         |   838.18 |   28.95  |  11.85  |  7.07%  |
+| **XGBoost**         |   843.28 |   29.04  |  12.43  |  7.53%  |
+| **GradientBoosting**| 1,075.11 |   32.79  |  12.94  |  7.79%  |
+| **LightGBM**        | 1,233.66 |   35.12  |  12.74  |  7.40%  |
+| **HistGradient**    | 1,234.39 |   35.13  |  13.45  |  7.79%  |
+
+![RMSE Comparison](./images/RMSE_comparison_models.png)  
+*RMSE variation across PCA component counts for Bagging, XGBoost, and LightGBM.*
+
+![MSE Comparison](./images/mse_comparison.png)  
+*Overall MSE performance across all tested models.*
 
 ## 🖼️ Genetic Algorithm Details
 

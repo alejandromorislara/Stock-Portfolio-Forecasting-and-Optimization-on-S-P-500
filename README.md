@@ -91,7 +91,7 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
    - Handle missing values and merge metadata.
 2. **Exploratory Data Analysis**  
    - Time series plots, distribution of returns.  
-   - **Figure:** Correlation heatmap → `./images/eda-correlation.png`
+   - **Figures:** MacroeconomicCorrelation heatmap → `./images/macroeconomic_correlation_matrix.png`
 3. **Feature Engineering**  
    - Compute technical indicators (moving averages, volatility).
    - Dimensionality Reduction : PCA
@@ -99,8 +99,6 @@ This project uses historical daily closing prices of S&P 500 stocks from 2010 t
    - Train/test split, model comparison, hyperparameter tuning.
 5. **Portfolio Optimization**  
    - Mean-variance frontier using CARA function. Portfolio selection according to the investor's risk.  
-   - **Figure:** Genetic Algorithm performance → `./images/genetic_algorithm_results.png`
-
 ---
 
 ## 📈 Forecasting
